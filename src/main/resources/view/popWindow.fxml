@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.popController">
+   <center>
+      <HBox prefHeight="100.0" prefWidth="200.0" styleClass="dark-background" stylesheets="@../css/style.css" BorderPane.alignment="CENTER">
+         <children>
+            <VBox prefHeight="400.0" prefWidth="187.0">
+               <children>
+                  <Pane prefHeight="370.0" prefWidth="182.0">
+                     <children>
+                        <ImageView fx:id="poster" fitHeight="289.0" fitWidth="161.0" layoutX="11.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../resources/images/filmplakater/12%20Angry%20Men.jpg" />
+                           </image>
+                        </ImageView>
+                     </children></Pane>
+               </children>
+            </VBox>
+            <VBox prefHeight="400.0" prefWidth="209.0">
+               <children>
+                  <Pane prefHeight="150.0" prefWidth="174.0">
+                     <children>
+                        <Label fx:id="name" layoutX="-12.0" layoutY="36.0" prefHeight="114.0" prefWidth="262.0" text="  Label" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="System Bold Italic" size="23.0" />
+                           </font>
+                        </Label>
+                     </children></Pane>
+                  <HBox prefHeight="23.0" prefWidth="216.0">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="22.0" prefWidth="60.0" text="Year:" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="year" prefHeight="20.0" prefWidth="57.0" text="1957" textFill="WHITE">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="26.0" prefWidth="216.0">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="21.0" prefWidth="60.0" text="  Genre:" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="genre" prefHeight="22.0" prefWidth="126.0" text="Crime, Drama" textFill="WHITE" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="66.0" prefWidth="204.0">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="21.0" prefWidth="60.0" text="   Rating:" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="rating" prefHeight="22.0" prefWidth="126.0" text="8.9" textFill="WHITE" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <Button fx:id="playButton" alignment="CENTER" mnemonicParsing="false" onAction="#play" prefHeight="33.0" prefWidth="198.0" stylesheets="@../css/style.css" text="Play" textFill="#fffdfd">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="dark-background" />
+                        <String fx:value="squar-border" />
+                     </styleClass>
+                  </Button>
+               </children>
+            </VBox>
+            <VBox prefHeight="400.0" prefWidth="220.0">
+               <children>
+                  <Pane prefHeight="401.0" prefWidth="215.0">
+                     <children>
+                        <ChoiceBox fx:id="SeasonsEpisodes" layoutX="32.0" layoutY="117.0" onMouseClicked="#episodes" prefWidth="150.0" style="-fx-text-fill: #fffff;" stylesheets="@../css/style.css">
+                           <styleClass>
+                              <String fx:value="white-background" />
+                              <String fx:value="squar-border" />
+                           </styleClass></ChoiceBox>
+                        <ChoiceBox fx:id="EpisodesSelectore" layoutX="32.0" layoutY="211.0" prefWidth="150.0" stylesheets="@../css/style.css">
+                           <styleClass>
+                              <String fx:value="white-background" />
+                              <String fx:value="green-text" />
+                           </styleClass></ChoiceBox>
+                        <Text fx:id="seasonsText" fill="#ffffff" layoutX="42.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Season" wrappingWidth="130.93667602539062" />
+                        <Text fx:id="epsiodesText" fill="#ffffff" layoutX="34.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Episode" wrappingWidth="130.93667602539062" />
+                     </children></Pane>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </center>
+</BorderPane>

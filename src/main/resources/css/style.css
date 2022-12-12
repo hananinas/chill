@@ -1,0 +1,40 @@
+.white-background {
+    -fx-background-color: white;
+}
+
+.dark-background{
+    -fx-background-color: #192026;    
+}
+
+.mix-background {
+    -fx-background-color: linear-gradient(from 25% 25% to 100% 100%, #ffffff, #a3b5bf);
+}
+
+.green-text{
+    -fx-text-color: #bff8a2;
+}
+
+#btn-logout {
+    -fx-background-color: linear-gradient(from 25% 25% to 100% 100%, #000000, #2898d4);
+}
+.transparent-background {
+    -fx-background-color: rgba(0, 0, 0, 0);
+}
+
+.round-layout {
+    -fx-border-radius: 50;
+    -fx-border-color: #ddd;
+}
+
+.squar-border{
+    -fx-border-color: #ddd;
+}
+
+.mouse-moved:hover{
+    -fx-border-color: #bff8a2;
+}
+
+#scrollPane {
+    -fx-background-color: lightblue;
+}
+

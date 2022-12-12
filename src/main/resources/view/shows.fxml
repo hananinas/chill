@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="890.0" prefWidth="1315.0" styleClass="dark-background" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.showsController">
+   <top>
+      <HBox prefHeight="83.0" prefWidth="1315.0" stylesheets="@../css/style.css" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" prefHeight="101.0" prefWidth="204.0" text="Chill-FLඞXER" textFill="#bff8a2">
+               <font>
+                  <Font name="Berlin Sans FB" size="26.0" />
+               </font>
+            </Label>
+            <Separator maxHeight="-Infinity" orientation="VERTICAL" prefHeight="26.0" prefWidth="6.0">
+               <HBox.margin>
+                  <Insets top="30.0" />
+               </HBox.margin>
+            </Separator>
+            <HBox alignment="CENTER" maxHeight="-Infinity" prefHeight="35.0" prefWidth="250.0" styleClass="round-layout" stylesheets="@../css/style.css">
+               <HBox.margin>
+                  <Insets left="6.0" top="26.0" />
+               </HBox.margin>
+               <children>
+                  <TextField fx:id="searchField" prefHeight="25.0" prefWidth="188.0" promptText="Search" styleClass="transparent-background" />
+                  <Button fx:id="searchButton" mnemonicParsing="false" styleClass="transparent-background" stylesheets="@../css/style.css">
+                     <graphic>
+                        <ImageView fitHeight="27.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/search.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </HBox>
+            <Pane maxWidth="-Infinity" prefHeight="81.0" prefWidth="390.0" stylesheets="@../css/style.css" HBox.hgrow="ALWAYS" />
+            <HBox prefHeight="44.0" prefWidth="354.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#switchToHome" prefHeight="76.0" prefWidth="141.0" styleClass="dark-background" text="Home" textFill="#bff8a2">
+                     <font>
+                        <Font name="System Bold Italic" size="18.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#switchToMovies" prefHeight="76.0" prefWidth="124.0" styleClass="dark-background" text="Movies" textFill="#bff8a2">
+                     <font>
+                        <Font name="System Bold Italic" size="18.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#switchToShows" prefHeight="76.0" prefWidth="163.0" styleClass="dark-background" text="Shows" textFill="#bff8a2">
+                     <font>
+                        <Font name="System Bold Italic" size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+               <HBox.margin>
+                  <Insets right="38.0" />
+               </HBox.margin>
+            </HBox>
+            <Button fx:id="favButton" mnemonicParsing="false" styleClass="dark-background" stylesheets="@../css/style.css">
+               <graphic>
+                  <ImageView fitHeight="68.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/favorite.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+         <styleClass>
+            <String fx:value="squar-border" />
+            <String fx:value="dark-background" />
+         </styleClass>
+      </HBox>
+   </top>
+   <left>
+      <VBox prefHeight="200.0" prefWidth="250.0" stylesheets="@../css/style.css" BorderPane.alignment="CENTER">
+         <children>
+            <Pane prefHeight="20.0" prefWidth="200.0" />
+            <VBox prefHeight="196.0" prefWidth="211.0" styleClass="squar-border">
+               <children>
+                  <HBox prefHeight="40.0" prefWidth="211.0">
+                     <children>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/video.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="3.0" top="9.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <Label alignment="CENTER" prefHeight="45.0" prefWidth="100.0" text="Categories" textFill="#bff8a2">
+                           <font>
+                              <Font name="System Bold Italic" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets left="4.0" right="4.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox prefHeight="40.0" prefWidth="211.0">
+                     <children>
+                        <Separator prefWidth="20.0">
+                           <HBox.margin>
+                              <Insets left="7.0" top="20.0" />
+                           </HBox.margin>
+                        </Separator>
+                        <Label fx:id="Categories" alignment="CENTER" prefHeight="45.0" prefWidth="100.0" text="Romance" textFill="#bff8a2">
+                           <font>
+                              <Font name="System Italic" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets left="4.0" right="4.0" />
+                     </VBox.margin>
+                     <styleClass>
+                        <String fx:value="squar-border" />
+                        <String fx:value="mouse-moved" />
+                     </styleClass>
+                  </HBox>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets left="4.0" right="4.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets top="4.0" />
+               </padding>
+            </VBox>
+         </children>
+         <styleClass>
+            <String fx:value="transparent-background" />
+            <String fx:value="squar-border" />
+         </styleClass>
+      </VBox>
+   </left>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" styleClass="dark-background" stylesheets="@../css/style.css" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Shows" textFill="#bff8a2">
+               <font>
+                  <Font name="Berlin Sans FB" size="27.0" />
+               </font>
+               <padding>
+                  <Insets left="24.0" top="15.0" />
+               </padding>
+            </Label>
+            <ScrollPane fx:id="cardlayout" prefHeight="683.0" prefWidth="1051.0" styleClass="dark-background" stylesheets="@../css/style.css">
+               <content>
+                  <GridPane fx:id="VideoLayout" prefHeight="0.0" prefWidth="84.0" styleClass="dark-background" stylesheets="@../css/style.css">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                  </GridPane>
+               </content>
+            </ScrollPane>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
