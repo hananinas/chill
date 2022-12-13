@@ -144,7 +144,7 @@
                   <Insets left="24.0" top="15.0" />
                </padding>
             </Label>
-            <ScrollPane fx:id="moviePane" prefHeight="352.0" prefWidth="1014.0" styleClass="transparent-background" stylesheets="@../css/style.css">
+            <ScrollPane fx:id="moviePane" prefHeight="292.0" prefWidth="1057.0" styleClass="transparent-background" stylesheets="@../css/style.css">
                <VBox.margin>
                   <Insets left="4.0" right="4.0" />
                </VBox.margin>

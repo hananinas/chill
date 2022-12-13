@@ -69,9 +69,12 @@ public class mainController implements Initializable {
         searchField.setStyle("-fx-font-size: 14px; -fx-text-fill: #fff; -fx-padding: 0.5em;");
         moviePane.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
         moviePane.setVbarPolicy(ScrollBarPolicy.NEVER);
+        moviePane.setHbarPolicy(ScrollBarPolicy.NEVER);
+
         showPane.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
         menuPane.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
         menuPane.setVbarPolicy(ScrollBarPolicy.NEVER);
+
 
         try {
             String start = "";
@@ -90,7 +93,6 @@ public class mainController implements Initializable {
             });
 
             setCategories(menuItem);
-
 
         } catch (Exception e) {
             e.printStackTrace();

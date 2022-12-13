@@ -6,7 +6,7 @@ public class test {
        DataAccess seriedata = new VideoData();
         Display serie = new Display(seriedata, "src/main/resources/data/serier.txt", "src/main/resources/images/serieforsider");
         serie.VideoData();
-        System.out.println(serie.getAllCategories());
+        System.out.println(serie.getAllCategories().size());
 
 
 
@@ -15,7 +15,8 @@ public class test {
         Display film = new Display(filmdata, "src/main/resources/data/film.txt", "src/main/resources/images/filmplakater");
         film.VideoData();
 
-        System.out.println(film.getAllCategories());
+        System.out.println(film.getAllCategories().size());
+
         
 
 

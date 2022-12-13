@@ -13,7 +13,7 @@ public class App extends Application {
 
         try {
             Parent root = FXMLLoader.load(getClass().getResource("view/home.fxml"));
-            primaryStage.setScene(new Scene(root, 1315, 800));
+            primaryStage.setScene(new Scene(root, 1400, 800));
             primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/img/Logo.png")));
             primaryStage.show();
         } catch (Exception e) {
