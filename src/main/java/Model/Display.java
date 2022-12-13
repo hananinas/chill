@@ -137,6 +137,19 @@ public class Display {
         return categories;
     }
 
+    public List<VideoObject> getVideoByCategory(String searchCategory) {
+        List<VideoObject> categorySearchFilter = new ArrayList<>();
+
+        for (VideoObject video : getAll()) {
+            for (String category : video.getCategories()){
+                if(category.equals(searchCategory) ){
+                    categorySearchFilter.add(video);
+                }
+            }
+        }
+
+        return categorySearchFilter;
+    }
     public void displayCategory() {
 
         List<String> categoryKeys = new ArrayList<>(getCategorie().keySet());
@@ -147,11 +160,7 @@ public class Display {
 
     }
 
-    public List<String> getVideoByCategory(String name) {
-        String s1 = name.substring(0, 1).toUpperCase();
-        String s2 = name.substring(1).toLowerCase();
-        return getCategorie().get(s1 + s2);
-    }
+
 
     public List<VideoObject> videoSearch(String name) {
         List<VideoObject> videoSearchFilter = new ArrayList<>();

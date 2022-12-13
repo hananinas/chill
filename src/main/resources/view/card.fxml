@@ -14,9 +14,9 @@
 
 <HBox fx:id="box" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="333.0" prefWidth="469.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CardController">
    <children>
-      <ImageView fx:id="poster" fitHeight="213.0" fitWidth="218.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="poster" fitHeight="207.0" fitWidth="154.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../resources/images/filmplakater/12%20Angry%20Men.jpg" />
+            <Image url="@../../resources/images/filmplakater/12 Angry Men.jpg" />
          </image>
       </ImageView>
       <VBox prefHeight="198.0" prefWidth="203.0">
@@ -59,14 +59,18 @@
                      </padding></Label>
                </children>
             </HBox>
-            <HBox prefHeight="85.0" prefWidth="203.0">
+            <HBox prefHeight="85.0" prefWidth="192.0">
                <children>
-                  <Pane prefHeight="43.0" prefWidth="42.0" />
-                  <Button fx:id="popupButton" mnemonicParsing="false" onAction="#popupViewMore" prefHeight="26.0" prefWidth="134.0" stylesheets="@../css/style.css" text="view more" textFill="WHITE">
+                  <Pane prefHeight="72.0" prefWidth="6.0" />
+                  <Button fx:id="popupButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#popupViewMore" prefHeight="42.0" prefWidth="196.0" stylesheets="@../css/style.css" text="view more" textFill="WHITE">
                      <styleClass>
                         <String fx:value="dark-background" />
                         <String fx:value="squar-border" />
-                     </styleClass></Button>
+                     </styleClass>
+                     <padding>
+                        <Insets left="4.0" right="3.0" />
+                     </padding>
+                  </Button>
                </children>
             </HBox>
          </children>
@@ -75,7 +79,7 @@
          <children>
             <Button fx:id="heartButton" layoutX="-10.0" layoutY="24.0" mnemonicParsing="false" onAction="#favlist" styleClass="squar-border" stylesheets="@../css/style.css">
                <graphic>
-                  <ImageView fx:id="heart" fitHeight="61.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="heart" fitHeight="61.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true" styleClass="dark-background">
                      <image>
                         <Image url="@../img/heartEmpty.png" />
                      </image>

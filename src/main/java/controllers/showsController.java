@@ -2,8 +2,7 @@ package controllers;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import Model.*;
@@ -37,13 +36,21 @@ public class showsController implements Initializable {
     @FXML
     private Button searchButton;
     @FXML
+    VBox menuItem;
+    @FXML
     private ScrollPane cardlayout;
+    private Set<String> categories;
+    @FXML
+    private ScrollPane menuPane;
+
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
 
         searchField.setStyle("-fx-font-size: 14px; -fx-text-fill: #fff; -fx-padding: 0.5em;");
         cardlayout.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
+        menuPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
 
         try {
 
@@ -61,6 +68,8 @@ public class showsController implements Initializable {
                     e.printStackTrace();
                 }
             });
+
+            setCategories(menuItem);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -79,24 +88,26 @@ public class showsController implements Initializable {
         main.switchToShows(event);
     }
 
+    public void switchToFav(ActionEvent event) throws IOException{
+        main.switchToFav(event);
+    }
+
     public void search(String query) throws IOException {
         // convert the search query to lower case
         String lowerCaseQuery = query.toLowerCase();
 
-        DataAccess showdata = new VideoData();
-        Display show = new Display(showdata, "src/main/resources/data/serier.txt", "src/main/resources/images/serieforsider");
-        show.VideoData();
+
         // filter the list of movies and TV shows based on the search query
-        List<VideoObject> filteredShows = show.videoSearch(lowerCaseQuery);
+        List<VideoObject> filteredShows = main.shows().videoSearch(lowerCaseQuery);
 
         // clear the shows from the scene
         VideoLayout.getChildren().clear();
 
         // update the scene with the filtered list of movies and TV shows
-        updateSceneWithMovies(filteredShows);
+        updateSceneWithShows(filteredShows);
     }
 
-    public void updateSceneWithMovies(List<VideoObject> filteredShows) throws IOException {
+    public void updateSceneWithShows(List<VideoObject> filteredShows) throws IOException {
         int row = 0;
         int column = 1;
 
@@ -116,4 +127,34 @@ public class showsController implements Initializable {
 
         }
     }
+
+    public Set<String> categories() {
+        return  main.shows().getAllCategories();
+    }
+
+    public void filterByCategory(String category) throws IOException {
+        // filter the list of movies and TV shows based on the search query
+        List<VideoObject> filteredShows = main.shows().getVideoByCategory(category);
+        // clear the shows and movies
+        VideoLayout.getChildren().clear();
+        // update the scene with the filtered list of movies and TV shows
+        updateSceneWithShows(filteredShows);
+    }
+    public  void  setCategories(VBox menuItem) throws IOException{
+        categories = new HashSet<String>(categories());
+
+
+        Iterator value = categories.iterator();
+
+        while (value.hasNext()) {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/view/categoryButton.fxml"));
+            Button catbButton = fxmlLoader.load();
+            catController catController = fxmlLoader.getController();
+            catController.getController(this);
+            catController.setText(value.next().toString());
+            menuItem.getChildren().add(catbButton);
+        }
+    }
+
 }

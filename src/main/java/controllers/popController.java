@@ -47,8 +47,6 @@ public class popController implements Initializable {
         EpisodesSelectore.setStyle("-fx-text-fill: red;");
         SeasonsEpisodes.setStyle("-fx-text-fill: #fff;");
 
-        SeasonsEpisodes.setValue(1);
-        EpisodesSelectore.setValue(1);
 
         SeasonsEpisodes.setOnAction(event -> {
             episodes(event);

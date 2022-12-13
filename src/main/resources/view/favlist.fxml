@@ -53,37 +53,39 @@
                </opaqueInsets>
             </HBox>
             <Pane maxWidth="-Infinity" prefHeight="81.0" prefWidth="390.0" stylesheets="@../css/style.css" HBox.hgrow="ALWAYS" />
-            <HBox prefHeight="44.0" prefWidth="354.0">
+            <HBox prefHeight="81.0" prefWidth="376.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#switchToHome" prefHeight="76.0" prefWidth="141.0" styleClass="dark-background" text="Home" textFill="#bff8a2">
+                  <Button mnemonicParsing="false" onAction="#switchToHome" prefHeight="76.0" prefWidth="216.0" styleClass="dark-background" text="Home" textFill="#bff8a2">
                      <font>
                         <Font name="System Bold Italic" size="18.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#switchToMovies" prefHeight="76.0" prefWidth="124.0" styleClass="dark-background" text="Movies" textFill="#bff8a2">
+                  <Button mnemonicParsing="false" onAction="#switchToMovies" prefHeight="76.0" prefWidth="216.0" styleClass="dark-background" text="Movies" textFill="#bff8a2">
                      <font>
                         <Font name="System Bold Italic" size="18.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#switchToShows" prefHeight="76.0" prefWidth="163.0" styleClass="dark-background" text="Shows" textFill="#bff8a2">
+                  <Button mnemonicParsing="false" onAction="#switchToShows" prefHeight="76.0" prefWidth="216.0" styleClass="dark-background" text="Shows" textFill="#bff8a2">
                      <font>
                         <Font name="System Bold Italic" size="18.0" />
                      </font>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#switchToFav" prefHeight="76.0" prefWidth="100.0" styleClass="dark-background" textFill="#bff8a2">
+                     <font>
+                        <Font name="System Bold Italic" size="18.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="53.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/favorite.png" />
+                           </image></ImageView>
+                     </graphic>
                   </Button>
                </children>
                <HBox.margin>
                   <Insets right="38.0" />
                </HBox.margin>
             </HBox>
-            <Button mnemonicParsing="false" onAction="#switchToFav" styleClass="transparent-background">
-               <graphic>
-                  <ImageView fitHeight="50.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true" styleClass="transparent-background">
-                     <image>
-                        <Image url="@../img/favorite.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
          </children>
          <styleClass>
             <String fx:value="squar-border" />
@@ -163,7 +165,7 @@
       </VBox>
    </left>
    <center>
-      <VBox prefHeight="200.0" prefWidth="100.0" styleClass="dark-background" stylesheets="@css/style.css" BorderPane.alignment="CENTER">
+      <VBox prefHeight="200.0" prefWidth="100.0" styleClass="dark-background" stylesheets="@../css/style.css" BorderPane.alignment="CENTER">
          <children>
             <Label text="Favorite List" textFill="#bff8a2">
                <font>
@@ -175,14 +177,14 @@
             </Label>
             <ScrollPane fx:id="cardlayout" prefHeight="683.0" prefWidth="1051.0" styleClass="dark-background">
                <content>
-                  <GridPane fx:id="VideoLayout" prefHeight="0.0" prefWidth="84.0" styleClass="dark-background" stylesheets="@css/style.css">
+                  <GridPane fx:id="VideoLayout" prefHeight="0.0" prefWidth="84.0" styleClass="dark-background" stylesheets="@../css/style.css">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
                   </GridPane>
                </content>
                <stylesheets>
-                  <URL value="@css/style.css" />
+                  <URL value="@../css/style.css" />
                   <URL value="@../css/style.css" />
                </stylesheets>
             </ScrollPane>

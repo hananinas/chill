@@ -96,7 +96,7 @@
                <children>
                   <Pane prefHeight="401.0" prefWidth="215.0">
                      <children>
-                        <ChoiceBox fx:id="SeasonsEpisodes" layoutX="32.0" layoutY="117.0" onMouseClicked="#episodes" prefWidth="150.0" style="-fx-text-fill: #fffff;" stylesheets="@../css/style.css">
+                        <ChoiceBox fx:id="SeasonsEpisodes" layoutX="32.0" layoutY="117.0" prefWidth="150.0" style="-fx-text-fill: #fffff;" stylesheets="@../css/style.css">
                            <styleClass>
                               <String fx:value="white-background" />
                               <String fx:value="squar-border" />

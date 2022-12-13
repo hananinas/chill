@@ -65,7 +65,6 @@ public class mainController implements Initializable {
     public void initialize(URL arg0, ResourceBundle arg1) {
         main = this;
 
-        categories = new HashSet<String>(categories());
 
         searchField.setStyle("-fx-font-size: 14px; -fx-text-fill: #fff; -fx-padding: 0.5em;");
         moviePane.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
@@ -90,17 +89,8 @@ public class mainController implements Initializable {
                 }
             });
 
-            Iterator value = categories.iterator();
+            setCategories(menuItem);
 
-            while (value.hasNext()) {
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/view/categoryButton.fxml"));
-                Button catbButton = fxmlLoader.load();
-                catController catController;
-                catController = new catController(main);
-                catController.setText(value.toString());
-                menuItem.getChildren().add(catbButton);
-            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -108,11 +98,25 @@ public class mainController implements Initializable {
 
     }
 
-    private Set<String> categories() {
-        DataAccess videoData = new VideoData();
-        Display show = new Display(videoData, "src/main/resources/data/serier.txt", "src/main/resources/images/serieforsider");
+    public Display movies(){
+        DataAccess filmdata = new VideoData();
+        Display film = new Display(filmdata, "src/main/resources/data/film.txt", "src/main/resources/images/filmplakater");
+        film.VideoData();
+        return film;
+    }
+
+    public Display shows(){
+        DataAccess showdata = new VideoData();
+        Display show = new Display(showdata, "src/main/resources/data/serier.txt", "src/main/resources/images/serieforsider");
         show.VideoData();
-        return show.getAllCategories();
+        return show;
+    }
+    public Set<String> categories() {
+        Set <String> allcategories = shows().getAllCategories();
+        for (String categories : movies().getAllCategories()){
+            allcategories.add(categories);
+        }
+        return  allcategories;
     }
 
     public void switchToHome(ActionEvent event) throws IOException {
@@ -172,18 +176,12 @@ public class mainController implements Initializable {
         // convert the search query to lower case
         String lowerCaseQuery = query.toLowerCase();
 
-        DataAccess showdata = new VideoData();
-        Display show = new Display(showdata, "src/main/resources/data/serier.txt", "src/main/resources/images/serieforsider");
-        show.VideoData();
-        // filter the list of movies and TV shows based on the search query
 
-        List<VideoObject> filteredShows = show.videoSearch(lowerCaseQuery);
-
-        DataAccess filmdata = new VideoData();
-        Display film = new Display(filmdata, "src/main/resources/data/film.txt", "src/main/resources/images/filmplakater");
-        film.VideoData();
         // filter the list of movies and TV shows based on the search query
-        List<VideoObject> filteredMovies = film.videoSearch(lowerCaseQuery);
+        List<VideoObject> filteredShows = shows().videoSearch(lowerCaseQuery);
+
+        // filter the list of movies and TV shows based on the search query
+        List<VideoObject> filteredMovies = movies().videoSearch(lowerCaseQuery);
 
         // clear the shows and movies
         cardLayoutFilm.getChildren().clear();
@@ -193,7 +191,7 @@ public class mainController implements Initializable {
         updateSceneWithShows(filteredShows);
     }
 
-    void updateSceneWithMovies(List<VideoObject> filteredMovies) throws IOException {
+    public void updateSceneWithMovies(List<VideoObject> filteredMovies) throws IOException {
         for (int i = 0; i < filteredMovies.size(); i++) {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("/view/card.fxml"));
@@ -216,8 +214,39 @@ public class mainController implements Initializable {
         }
     }
 
-    public void filterByCategories(ActionEvent event){
+    public void filterByCategory(String category) throws IOException {
+        cardLayoutFilm.getChildren().clear();
+        cardLayoutShow.getChildren().clear();
 
+        // filter the list of movies and TV shows based on the search query
+        List<VideoObject> filteredShows = shows().getVideoByCategory(category);
+
+        // filter the list of movies and TV shows based on the search query
+        List<VideoObject> filteredMovies = movies().getVideoByCategory(category);
+
+        // clear the shows and movies
+        cardLayoutFilm.getChildren().clear();
+        cardLayoutShow.getChildren().clear();
+        // update the scene with the filtered list of movies and TV shows
+        updateSceneWithMovies(filteredMovies);
+        updateSceneWithShows(filteredShows);
+    }
+
+    public  void  setCategories(VBox menuItem) throws IOException{
+        categories = new HashSet<String>(categories());
+
+
+        Iterator value = categories.iterator();
+
+        while (value.hasNext()) {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/view/categoryButton.fxml"));
+            Button catbButton = fxmlLoader.load();
+            catController catController = fxmlLoader.getController();
+            catController.getController(this);
+            catController.setText(value.next().toString());
+            menuItem.getChildren().add(catbButton);
+        }
     }
 
 
