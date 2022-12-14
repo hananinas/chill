@@ -30,6 +30,8 @@ public class MovieController implements Initializable {
 
     private List<VideoObject> movies;
 
+    private List<VideoObject> fav;
+
     mainController main = new mainController();
    
 

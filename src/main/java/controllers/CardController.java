@@ -19,6 +19,7 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 
+import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 import java.io.FileInputStream;
@@ -55,13 +56,15 @@ public class CardController {
     @FXML
     private Button popupButton;
     @FXML
-    private ImageView heart;
+    ImageView heart;
     @FXML
     private Button heartButton;
 
-    List<VideoObject> favList;
+    mainController main = new mainController();
+
 
     public VideoObject video;
+
     private int counter = 0;
 
     public void setData(VideoObject video) throws FileNotFoundException {
@@ -81,6 +84,10 @@ public class CardController {
 
         season.setVisible(false);
         seasonstext.setVisible(false);
+
+        if(video.getIsFavorite()){
+            setHeartToRed();
+        }
 
         // add image to the movie or show
         Image image = new Image(new FileInputStream(video.getImage()));
@@ -135,51 +142,12 @@ public class CardController {
         popupStage.showAndWait();
     }
 
-    public List<VideoObject> getFavList() {
-        return favList;
-    }
-
     public void favlist(ActionEvent event) {
-
-        if (season.getText().equals("")) {
-
-            DataAccess filmdata = new VideoData();
-            Display film = new Display(filmdata, "src/main/resources/data/film.txt", "src/main/resources/images/filmplakater");
-            film.VideoData();
-
-            film.favListControl(name.getText());
-
-            counter++;
-
-            if (counter == 1) {
-                Image image = new Image(getClass().getResourceAsStream("/img/heart.png"));
-                heart.setImage(image);
-            } else if (counter == 2) {
-                Image image = new Image(getClass().getResourceAsStream("/img/heartEmpty.png"));
-                heart.setImage(image);
-                counter = 0;
-            }
-
-        } else {
-
-            DataAccess showdata = new VideoData();
-            Display show = new Display(showdata, "src/main/resources/data/serier.txt", "src/main/resources/images/serieforsider");
-            show.VideoData();
-
-            show.favListControl(name.getText());
-
-            counter++;
-
-            if (counter == 1) {
-                Image image = new Image(getClass().getResourceAsStream("/img/heart.png"));
-                heart.setImage(image);
-            } else if (counter == 2) {
-                Image image = new Image(getClass().getResourceAsStream("/img/heartEmpty.png"));
-                heart.setImage(image);
-                counter = 0;
-            }
-        }
-
+        main.fav(season.getText(),this );
     }
 
+    public void setHeartToRed(){
+        Image image = new Image(getClass().getResourceAsStream("/img/heart.png"));
+        heart.setImage(image);
+    }
 }

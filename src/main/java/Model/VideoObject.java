@@ -8,9 +8,12 @@ public class VideoObject {
     String year;
     String ratings;
     File image;
+    boolean fav;
     List<String> categories;
 
-    VideoObject(String title, String year, String ratings, File image) {
+    boolean isFavorite;
+
+    VideoObject(String title, String year, String ratings, File image ) {
 
         this.title = title;
         this.year = year;
@@ -49,5 +52,11 @@ public class VideoObject {
         return title + ";" + year + ";" + ratings + ";" + getCategories() + ";" + image;
     }
 
-    
+    public boolean setIsFavorite(boolean favorite) {
+        return this.isFavorite = favorite;
+    }
+
+    public boolean getIsFavorite() {
+        return isFavorite;
+    }
 }
