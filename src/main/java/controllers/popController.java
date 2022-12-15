@@ -48,9 +48,7 @@ public class popController implements Initializable {
         SeasonsEpisodes.setStyle("-fx-text-fill: #fff;");
 
 
-        SeasonsEpisodes.setOnAction(event -> {
-            episodes(event);
-        });
+        SeasonsEpisodes.setOnAction(this::episodes);
 
     }
 
@@ -59,10 +57,10 @@ public class popController implements Initializable {
         rating.setText(video.getRatings());
         year.setText(video.getYear());
 
-        String genres = "";
+        StringBuilder genres = new StringBuilder();
 
         for (String genre : video.getCategories()) {
-            genres += ", " + genre;
+            genres.append(", ").append(genre);
         }
 
         genre.setText(genres.substring(2));
@@ -104,7 +102,7 @@ public class popController implements Initializable {
         }
     }
 
-    public void play(ActionEvent event) {
+    public void play() {
         Counter++;
 
         if (Counter == 1) {

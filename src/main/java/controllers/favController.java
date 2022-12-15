@@ -2,13 +2,9 @@ package controllers;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.*;
 
 import Model.*;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,14 +22,10 @@ import javafx.stage.Stage;
 public class favController implements Initializable {
 
     private Stage stage;
-    private Scene scene;
     private Parent root;
     private final mainController main = new mainController();
 
-
-    public void setData(ObservableList<VideoObject> favlist) {
-        main.favList = favlist;
-    }
+    private List<VideoObject> fav = new LinkedList<>();
 
     @FXML
     private GridPane VideoLayout;
@@ -47,6 +39,7 @@ public class favController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
+
 
         searchField.setStyle("-fx-font-size: 14px; -fx-text-fill: #fff; -fx-padding: 0.5em;");
         cardlayout.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
@@ -76,21 +69,23 @@ public class favController implements Initializable {
 
     }
 
-    public ObservableList<VideoObject>  returnFav() {
-        return main.favList;
+    public void setData(List<VideoObject> favlist) throws IOException {
+        this.fav = favlist;
+        search("");
     }
 
-
-
-    public void switchToHome(ActionEvent event) throws IOException {
+    public void switchToHome(ActionEvent event) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/home.fxml"));
             root = fxmlLoader.load();
-            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            scene = new Scene(root);
-            mainController main = fxmlLoader.getController();
-            main.setData(main.favList);
-            stage.setScene(scene);
+
+
+            mainController mainController = fxmlLoader.getController();
+            mainController.setData(getList());
+
+
+            stage =  (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
@@ -98,30 +93,82 @@ public class favController implements Initializable {
 
     }
 
-    public void switchToMovies(ActionEvent event) throws IOException {
-        main.switchToMovies(event);
+    public void switchToMovies(ActionEvent event) {
+
+        try {
+
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/movies.fxml"));
+            root = fxmlLoader.load();
+
+
+            movieController movieController = fxmlLoader.getController();
+            movieController.setData(getList());
+
+
+            stage =  (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
-    public void switchToShows(ActionEvent event) throws IOException {
-        main.switchToShows(event);
+    public void switchToShows(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/shows.fxml"));
+            root = fxmlLoader.load();
+
+
+            showsController showsController = fxmlLoader.getController();
+            showsController.setData(getList());
+
+
+            stage =  (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
-    public void switchToFav(ActionEvent event) throws IOException{
-        main.switchToFav(event);
+
+    public void switchToFav(ActionEvent event) {
+        try {
+
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/favlist.fxml"));
+            root = fxmlLoader.load();
+
+
+            favController favController = fxmlLoader.getController();
+            favController.setData(getList());
+
+
+            stage =  (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
+
+    public List<VideoObject> getList(){
+        return fav;
+    }
+
+
+
 
     public void search(String query) throws IOException {
         // convert the search query to lower case
 
-        String lowerCaseQuery = query.toLowerCase();
-
-        List<VideoObject> allVideos = Stream.concat(main.shows().getAll().stream(), main.movies().getAll().stream())
-                .filter(v -> v.getTitle().toLowerCase().contains(query.toLowerCase()))
-                .toList();
+        // get a list of all shows
+        List<VideoObject> allVideos = main.shows().combian(main.shows().getAll(), main.movies().getAll());
 
 
-        List<VideoObject> favVideos = main.shows().favSearch( query , main.shows().returnFavList(allVideos,main.getList()));
-
-
+        List<VideoObject> favVideos = main.shows().favSearch( query , main.shows().returnFavList(allVideos, getList()));
 
         // clear the shows and movies
         VideoLayout.getChildren().clear();
@@ -139,10 +186,11 @@ public class favController implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("/view/video.fxml"));
             VBox carBox = fxmlLoader.load();
-            MovieCardController cardController = fxmlLoader.getController();
+            movieCardController cardController = fxmlLoader.getController();
+            cardController.hide();
             cardController.setData(filteredMoviesShows.get(i));
 
-            if (column == 5) {
+            if (column == 6) {
                 column = 0;
                 row++;
             }

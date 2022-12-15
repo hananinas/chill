@@ -252,6 +252,18 @@ public class Display {
         }
         return videoSearchFilter;
     }
+
+    public List<VideoObject> combian(List<VideoObject> allSeries, List<VideoObject> allFilms) {
+        List<VideoObject> allvideos = allSeries;
+
+        for (VideoObject video: allFilms
+             ) {
+            allvideos.add(video);
+        }
+
+        return allvideos;
+    }
+
     void displayFavList() {
         System.out.println("Favorite list");
         for (VideoObject fav : favoriteList) {

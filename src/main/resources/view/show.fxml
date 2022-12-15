@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="265.0" styleClass="dark-background" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ShowCardController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="265.0" styleClass="dark-background" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.showCardController">
    <children>
       <Button fx:id="popupButton" mnemonicParsing="false" onAction="#popupViewMore" styleClass="transparent-background" stylesheets="@../css/style.css">
          <graphic>
@@ -49,11 +49,20 @@
       </HBox>
       <HBox prefHeight="32.0" prefWidth="245.0">
          <children>
-            <Label alignment="CENTER" prefHeight="21.0" prefWidth="60.0" text="    Seasons:" textFill="WHITE" />
-            <Label fx:id="season" prefHeight="22.0" prefWidth="126.0" text="  " textFill="WHITE" HBox.hgrow="ALWAYS">
+            <Label alignment="CENTER" prefHeight="46.0" prefWidth="81.0" text="    Seasons:" textFill="WHITE" />
+            <Label fx:id="season" prefHeight="55.0" prefWidth="108.0" text="  " textFill="WHITE" HBox.hgrow="ALWAYS">
                <HBox.margin>
                   <Insets left="4.0" />
                </HBox.margin></Label>
+            <Button fx:id="heartButton" mnemonicParsing="false" onAction="#favlist" styleClass="squar-border" stylesheets="@../css/style.css">
+               <graphic>
+                  <ImageView fx:id="heart" fitHeight="49.0" fitWidth="52.0" pickOnBounds="true" preserveRatio="true" styleClass="dark-background">
+                     <image>
+                        <Image url="@../img/heartEmpty.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
          </children>
       </HBox>
    </children>

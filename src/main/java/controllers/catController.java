@@ -1,16 +1,9 @@
 package controllers;
 
-import Model.DataAccess;
-import Model.Display;
-import Model.VideoData;
-import Model.VideoObject;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 public class catController {
@@ -20,7 +13,7 @@ public class catController {
     private mainController main;
     private showsController show;
 
-    private MovieController movie;
+    private movieController movie;
 
     String name;
     public void getController(mainController main) {
@@ -31,24 +24,21 @@ public class catController {
         this.show = main;
         name = "show";
     }
-    public void getController(MovieController main) {
+    public void getController(movieController main) {
         this.movie = main;
         name = "movie";
     }
-
 
 
     public void setText(String category){
         categorieButton.setText(category);
     }
 
-    public void filterByCategories(ActionEvent event) throws IOException {
-        if(name.equals("main")){
-            main.filterByCategory(categorieButton.getText());
-        } else if (name.equals("show")) {
-            show.filterByCategory(categorieButton.getText());
-        } else if (name.equals("movie")){
-            movie.filterByCategory(categorieButton.getText());
+    public void filterByCategories() throws IOException {
+        switch (name) {
+            case "main" -> main.filterByCategory(categorieButton.getText());
+            case "show" -> show.filterByCategory(categorieButton.getText());
+            case "movie" -> movie.filterByCategory(categorieButton.getText());
         }
     }
 
