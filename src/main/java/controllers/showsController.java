@@ -13,6 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -25,7 +26,7 @@ public class showsController implements Initializable {
     private Stage stage;
     private Parent root;
 
-    mainController main = new mainController();
+    protected mainController main = new mainController();
 
     @FXML
     private GridPane VideoLayout;
@@ -34,14 +35,16 @@ public class showsController implements Initializable {
     @FXML
     private Button searchButton;
     @FXML
-    VBox menuItem;
+    private VBox menuItem;
     @FXML
     private ScrollPane cardlayout;
     private Set<String> categories;
     @FXML
     private ScrollPane menuPane;
-
-    private List<VideoObject> favList = new ArrayList<>();
+    @FXML
+    private Label notFound;
+    
+    private HashSet<VideoObject> favList = new HashSet<>();
 
     public showsController() {
     }
@@ -49,12 +52,14 @@ public class showsController implements Initializable {
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
 
-        searchField.setStyle("-fx-font-size: 14px; -fx-text-fill: #fff; -fx-padding: 0.5em;");
-        cardlayout.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
-        menuPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
 
         try {
+
+            searchField.setStyle("-fx-font-size: 14px; -fx-text-fill: #fff; -fx-padding: 0.5em;");
+            cardlayout.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
+            menuPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            notFound.setVisible(false);
 
             String start = "";
             search(start);
@@ -66,8 +71,10 @@ public class showsController implements Initializable {
                 // search for movies and TV shows matching the query
                 try {
                     search(query);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } catch (IOException | SearchIsEmptyException e) {
+                    notFound.setMinWidth(400);
+                    notFound.setVisible(true);
+                    notFound.setText(e.getMessage());
                 }
             });
 
@@ -78,7 +85,7 @@ public class showsController implements Initializable {
 
     }
 
-    public void setData(List<VideoObject> favlist) throws IOException {
+    public void setData(HashSet<VideoObject> favlist) throws IOException, SearchIsEmptyException {
         this.favList = favlist;
         search("");
     }
@@ -164,19 +171,26 @@ public class showsController implements Initializable {
 
     }
 
-    public void search(String query) throws IOException {
+    public void search(String query) throws IOException, SearchIsEmptyException {
         // convert the search query to lower case
         String lowerCaseQuery = query.toLowerCase();
 
 
-        // filter the list of movies and TV shows based on the search query
+            // filter the list of movies and TV shows based on the search query
         List<VideoObject> filteredShows = main.shows().videoSearch(lowerCaseQuery);
+
+        if(filteredShows.size() == 0){
+            VideoLayout.getChildren().clear();
+            VideoLayout.getChildren().add(notFound);
+            throw new SearchIsEmptyException();
+        }
 
         // clear the shows from the scene
         VideoLayout.getChildren().clear();
 
-        // update the scene with the filtered list of movies and TV shows
+            // update the scene with the filtered list of movies and TV shows
         updateSceneWithShows(main.setFav(filteredShows, favList));
+
     }
 
     public void updateSceneWithShows(List<VideoObject> filteredShows) throws IOException {
@@ -243,7 +257,7 @@ public class showsController implements Initializable {
             }
 
     }
-    public List<VideoObject> getList(){
+    public HashSet<VideoObject> getList(){
         return favList;
     }
 

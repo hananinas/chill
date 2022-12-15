@@ -2,9 +2,14 @@ package Model;
 import java.util.*;
 import java.io.*;
 
+/**
+ Klassen har til formål at hente data og gemme dataene i de forskellige lister
+ I vores felt, benytter vi to lister, videoData og images, hvor alt data afhængig af om det er en film eller serie vi beskæftiger os med
+ *
+ */
 public class VideoData implements  DataAccess {
     private List<String> videoData;
-    ArrayList<File> images; 
+    private ArrayList<File> images;
 
     public VideoData() {
         videoData = new LinkedList<>();

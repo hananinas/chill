@@ -149,7 +149,14 @@
                   <Insets left="4.0" right="4.0" />
                </VBox.margin>
                <content>
-                  <HBox fx:id="cardLayoutFilm" prefHeight="351.0" prefWidth="1104.0" styleClass="dark-background" stylesheets="@../css/style.css" />
+                  <HBox fx:id="cardLayoutFilm" prefHeight="351.0" prefWidth="1104.0" styleClass="dark-background" stylesheets="@../css/style.css">
+                     <children>
+                        <Label fx:id="notFound" prefHeight="187.0" prefWidth="436.0" text="Label" textFill="RED">
+                           <font>
+                              <Font size="29.0" />
+                           </font>
+                        </Label>
+                     </children></HBox>
                </content>
             </ScrollPane>
             <Label text="Shows" textFill="#bff8a2">
@@ -162,7 +169,14 @@
             </Label>
             <ScrollPane fx:id="showPane" prefHeight="364.0" prefWidth="1065.0" styleClass="transparent-background" stylesheets="@../css/style.css">
                <content>
-                  <HBox fx:id="cardLayoutShow" prefHeight="348.0" prefWidth="1066.0" styleClass="dark-background" stylesheets="@../css/style.css" />
+                  <HBox fx:id="cardLayoutShow" prefHeight="348.0" prefWidth="1066.0" styleClass="dark-background" stylesheets="@../css/style.css">
+                     <children>
+                        <Label fx:id="notFound1" prefHeight="187.0" prefWidth="436.0" text="Label" textFill="RED">
+                           <font>
+                              <Font size="29.0" />
+                           </font>
+                        </Label>
+                     </children></HBox>
                </content>
             </ScrollPane>
          </children>

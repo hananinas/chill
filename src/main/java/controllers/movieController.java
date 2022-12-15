@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -25,7 +26,7 @@ public class movieController implements Initializable {
     private Stage stage;
     private Parent root;
 
-    mainController main = new mainController();
+   protected mainController main = new mainController();
 
 
     @FXML
@@ -40,21 +41,42 @@ public class movieController implements Initializable {
     VBox menuItem;
     @FXML
     private ScrollPane menuPane;
+
+    @FXML
+    private Label notFound;
     private Set<String> categories;
 
-    public List<VideoObject> favList = new ArrayList<>();
+    protected HashSet<VideoObject> favList = new HashSet<>();
 
+    /**
+     * This function is called when the controller is initialized
+     * @param arg0
+     * @param arg1
+     */
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        // set styles for UI elements
-        searchField.setStyle("-fx-font-size: 14px; -fx-text-fill: #fff; -fx-padding: 0.5em;");
-        cardlayout.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
-        menuPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
 
+
+
+        /**
+         * Try-Catch block to catch any errors during start
+         */
         try {
-            // perform initial search with no query
 
+
+            /**
+             * set styles for UI elements
+             */
+            notFound.setVisible(false);
+
+            searchField.setStyle("-fx-font-size: 14px; -fx-text-fill: #fff; -fx-padding: 0.5em;");
+            cardlayout.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
+            menuPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+            /**
+             * perform initial search with no query
+             */
             String start = "";
             search(start);
 
@@ -66,39 +88,52 @@ public class movieController implements Initializable {
                 // search for movies and TV shows matching the query
                 try {
                     search(query);
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                } catch (IOException | SearchIsEmptyException e) {
+                    notFound.setVisible(true);
+                    notFound.setText(e.getMessage());
                 }
             });
 
             setCategories(menuItem);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
 
-
-    public void setData(List<VideoObject> favlist) throws IOException {
-        this.favList = favlist;
+    /**
+     *  SetData is a method called when the controller is loaded by the
+     * @param favList
+     * @throws IOException
+     */
+    public void setData(HashSet<VideoObject> favList) throws IOException, SearchIsEmptyException {
+        this.favList = favList;
         search("");
     }
 
 
-
+    /**
+     * ActionEvent triggered when home icon is clicked
+     * @param event ActionEvent
+     */
     public void switchToHome(ActionEvent event) {
+        /**
+         * try-catch any errors while switching scenes
+         */
         try {
+            /** Load  the view for home page using the FXMLLOADER **/
+
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/home.fxml"));
             root = fxmlLoader.load();
 
-
+            /**
+             * Get the mainController
+             */
             mainController mainController = fxmlLoader.getController();
             mainController.setData(getList());
 
-
+            /** set the stage with the shows and movies / home screen **/
             stage =  (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
@@ -108,18 +143,25 @@ public class movieController implements Initializable {
 
     }
 
+    /**
+     * ActionEvent triggered when Movie Button is clicked
+     * @param event ActionEvent
+     */
     public void switchToMovies(ActionEvent event) {
-
+        /**
+         * try-catch any errors while switching scenes
+         */
         try {
+            /** Load  the view for movies page  using the FXMLLOADER **/
 
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/movies.fxml"));
             root = fxmlLoader.load();
 
-
+            /** get the movieConroller for the view **/
             movieController movieController = fxmlLoader.getController();
             movieController.setData(getList());
 
-
+            /** set the stage with the movies  **/
             stage =  (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
@@ -129,37 +171,57 @@ public class movieController implements Initializable {
 
     }
 
+    /**
+     * ActionEvent triggered when shows Button is clicked
+     * @param event ActionEvent
+     */
     public void switchToShows(ActionEvent event) {
+        /**
+         * try-catch any errors while switching scenes
+         */
         try {
+            /** Load  the view for shows page using the FXMLLOADER **/
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/shows.fxml"));
             root = fxmlLoader.load();
 
-
+            /** get the showConroller for the view **/
             showsController showsController = fxmlLoader.getController();
             showsController.setData(getList());
 
-
+            /** set the stage with the shows **/
             stage =  (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
+    /**
+     * ActionEvent triggered when favList icon is clicked
+     * @param event ActionEvent
+     */
     public void switchToFav(ActionEvent event) {
+        /**
+         * try-catch any errors while switching scenes
+         */
         try {
 
+            /** Load the the view for favList using the FXMLLOADER **/
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/favlist.fxml"));
             root = fxmlLoader.load();
 
 
+            /** get the favConroller for the view **/
             favController favController = fxmlLoader.getController();
+
+            /** set data for favList in the Controller **/
             favController.setData(getList());
 
-
-            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            /** set the stage with the  **/
+            stage =  (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
 
@@ -169,15 +231,19 @@ public class movieController implements Initializable {
 
     }
 
-    public void search(String query) throws IOException {
+    public void search(String query) throws IOException, SearchIsEmptyException {
         // convert the search query to lower case
     
         String lowerCaseQuery = query.toLowerCase();
 
-
         // filter the list of movies and TV shows based on the search query
         List<VideoObject> filteredMovies =  main.movies().videoSearch(lowerCaseQuery);
 
+        if(filteredMovies.size() == 0){
+            VideoLayout.getChildren().clear();
+            VideoLayout.getChildren().add(notFound);
+            throw new SearchIsEmptyException();
+        }
 
         // clear the shows and movies
         VideoLayout.getChildren().clear();
@@ -205,7 +271,13 @@ public class movieController implements Initializable {
 
         }
     }
+
+    /**
+     * Method to getAllCategories
+     * @return categories
+     */
     public Set<String> categories() {
+        /** uses the method movies to get all movies and the method getAllCategories from display to get the unique categories in movies. **/
         return  main.movies().getAllCategories();
     }
 
@@ -231,25 +303,35 @@ public class movieController implements Initializable {
         }
     }
 
-    //fav list code
+    /**
+     * This method is a controller for the fav list that uses the methods addToList and removeToList to remove and change the state of the heart image on the heartButton in Card
+     * @param card
+     */
     public void fav(movieCardController card){
 
-            if (!card.video.getIsFavorite()) {
+        /**
+         * If the video in movieCardController is not fav then change the image to heart.png
+         */
+             if (!card.video.getIsFavorite()) {
                 Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/heart.png")));
-                main.addToList(card.video, "movie");
+                addToList(card.video);
                 main.movies().getAll();
                 card.heart.setImage(image);
                 card.video.setIsFavorite(true);
-            } else {
-                Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/heartEmpty.png")));
-                main.movies().getAll();
-                main.removeToList(card.video, "movie");
-                card.heart.setImage(image);
-                card.video.setIsFavorite(false);
             }
 
     }
-    public List<VideoObject> getList(){
+
+    public void addToList(VideoObject video){
+            main.movies().getAll();
+            favList = main.movies().addFavList(video.getTitle(), favList);
+    }
+
+    public void removeToList(VideoObject video){
+            main.movies().getAll();
+            favList = main.movies().removeFavList(video.getTitle(), favList);
+    }
+    public HashSet<VideoObject> getList(){
         return favList;
     }
 }

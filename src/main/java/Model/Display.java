@@ -5,9 +5,13 @@ import java.io.File;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+
+/**
+ *
+ */
 public class Display {
 
-    String Path;
+    private String path;
 
     private List<String> videoList;
     private List<File> images;
@@ -18,15 +22,14 @@ public class Display {
     private Map<String, List<String>> categories;
     private Set<String> theCategories;
 
-    private List<VideoObject> favoriteList = new ArrayList<>();
+    private Set<VideoObject> favoriteList;
 
-    private
 
-    SerieObject serie;
-    VideoObject film;
+    private SerieObject serie;
+    private VideoObject film;
 
     public Display(DataAccess video, String path, String imagePath) {
-        this.Path = path;
+        this.path = path;
 
         video.saveData(path);
         video.saveImage(imagePath);
@@ -37,13 +40,13 @@ public class Display {
         allFilms = new LinkedList<>();
         allSeries = new LinkedList();
 
-        favoriteList = new LinkedList();
+        favoriteList = new HashSet<>();
 
         categories = new HashMap<>();
         theCategories = new HashSet<>();
     }
 
-    public void VideoData() {
+    public void videoData() {
 
         for (String enFilm : videoList) {
 
@@ -68,7 +71,7 @@ public class Display {
 
             }
 
-            if (Path.contains("film")) {
+            if (path.contains("film")) {
                 allFilms.add(film);
             } else {
                 serie = new SerieObject(title, year, ratings, theimage);
@@ -101,7 +104,7 @@ public class Display {
 
 
         List<VideoObject> indhold;
-        if (Path.contains("film")) {
+        if (path.contains("film")) {
             indhold = allFilms;
         } else {
             indhold = allSeries;
@@ -113,13 +116,6 @@ public class Display {
         return indhold;
     }
 
-    //check if fav is active
-    public List<VideoObject> saveFavData(List<VideoObject> favList){
-        // concatenate two lists
-        List<VideoObject> allVideos = Stream.concat(allFilms.stream(), allSeries.stream())
-                .collect(Collectors.toList());
-        return allVideos;
-    }
 
     public Map<String, List<String>> getCategorie() {
 
@@ -127,7 +123,7 @@ public class Display {
         Collections.sort(category);
         List<VideoObject> indhold;
 
-        if (Path.contains("film")) {
+        if (path.contains("film")) {
             indhold = allFilms;
         } else {
             indhold = allSeries;
@@ -164,6 +160,8 @@ public class Display {
 
         return categorySearchFilter;
     }
+
+    /*
     public void displayCategory() {
 
         List<String> categoryKeys = new ArrayList<>(getCategorie().keySet());
@@ -173,10 +171,11 @@ public class Display {
         }
 
     }
+   */
 
 
 
-    public List<VideoObject> videoSearch(String name) {
+    public List<VideoObject> videoSearch(String name) throws SearchIsEmptyException {
         List<VideoObject> videoSearchFilter = new ArrayList<>();
 
         for (VideoObject video : getAll()) {
@@ -184,13 +183,14 @@ public class Display {
                 videoSearchFilter.add(video);
             }
         }
+
         return videoSearchFilter;
     }
 
     // ! Favorite List -------------------------------
 
-    public VideoObject addFavList(String title, List<VideoObject> favoriteList ) {
-        VideoObject videoAdd = null;
+    public HashSet<VideoObject>  addFavList(String title, HashSet<VideoObject> favoriteList) {
+        this.favoriteList = favoriteList;
         // concatenate two lists
         List<VideoObject> allVideos = Stream.concat(allFilms.stream(), allSeries.stream())
                 .collect(Collectors.toList());
@@ -198,13 +198,13 @@ public class Display {
         for (VideoObject video : allVideos) {
             if (video.getTitle().equals(title)) {
                 video.setIsFavorite(true);
-                videoAdd = video;
+                favoriteList.add(video);
             }
         }
-        return videoAdd;
+        return favoriteList;
     }
 
-    public List<VideoObject> removeFavList(String title, List<VideoObject> favoriteList ) {
+    public HashSet<VideoObject> removeFavList(String title, HashSet<VideoObject> favoriteList ) {
         this.favoriteList = favoriteList;
         Iterator<VideoObject> iterator = favoriteList.iterator();
         while (iterator.hasNext()) {
@@ -216,36 +216,11 @@ public class Display {
         return favoriteList;
     }
 
-    public List<VideoObject> getMyFavList(List<VideoObject> favList) {
-        return favoriteList;
-    }
 
-
-    public List<VideoObject> returnFavList(List<VideoObject> favoriteList, List<VideoObject> videos) {
-
-        List<VideoObject>  favoriteList1 = favoriteList;
-
-        List<VideoObject> favAllVideos = new ArrayList<>();
-        List<VideoObject> allVideos = videos;
-
-        for (VideoObject video : allVideos) {
-            for (VideoObject favvideo : favoriteList1
-                 ) {
-                if (favvideo.getTitle().equals(video.getTitle())) {
-                    video.setIsFavorite(true);
-                }
-            }
-            favAllVideos.add(video);
-        }
-
-        return favAllVideos;
-    }
-
-
-    public List<VideoObject> favSearch(String name , List<VideoObject> videoseries) {
+    public List<VideoObject> favSearch(String name , HashSet<VideoObject> favVideoSeries) {
         List<VideoObject> videoSearchFilter = new ArrayList<>();
 
-        for (VideoObject video : videoseries) {
+        for (VideoObject video : favVideoSeries) {
             if (video.getTitle().toLowerCase().contains(name.toLowerCase())) {
                 videoSearchFilter.add(video);
             }
@@ -253,7 +228,7 @@ public class Display {
         return videoSearchFilter;
     }
 
-    public List<VideoObject> combian(List<VideoObject> allSeries, List<VideoObject> allFilms) {
+    public List<VideoObject> combine(List<VideoObject> allSeries, List<VideoObject> allFilms) {
         List<VideoObject> allvideos = allSeries;
 
         for (VideoObject video: allFilms
@@ -264,13 +239,14 @@ public class Display {
         return allvideos;
     }
 
+    /*
     void displayFavList() {
         System.out.println("Favorite list");
         for (VideoObject fav : favoriteList) {
             System.out.println(fav.display());
         }
     }
-
+    */
 
 
 }

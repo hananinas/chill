@@ -95,16 +95,25 @@
       </HBox>
    </top>
    <center>
-      <VBox prefHeight="200.0" prefWidth="100.0" styleClass="dark-background" stylesheets="@../css/style.css" BorderPane.alignment="CENTER">
+      <VBox fx:id="mid" prefHeight="200.0" prefWidth="100.0" styleClass="dark-background" stylesheets="@../css/style.css" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Movies" textFill="#bff8a2">
-               <font>
-                  <Font name="Berlin Sans FB" size="27.0" />
-               </font>
-               <padding>
-                  <Insets left="24.0" top="15.0" />
-               </padding>
-            </Label>
+            <HBox fx:id="topMid" prefHeight="61.0" prefWidth="1065.0">
+               <children>
+                  <Label text="Movies" textFill="#bff8a2">
+                     <font>
+                        <Font name="Berlin Sans FB" size="27.0" />
+                     </font>
+                     <padding>
+                        <Insets left="24.0" top="15.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="notFound" prefHeight="68.0" prefWidth="652.0" text="                  Label" textFill="RED">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
             <ScrollPane fx:id="cardlayout" prefHeight="683.0" prefWidth="1051.0" styleClass="dark-background">
                <content>
                   <GridPane fx:id="VideoLayout" prefHeight="0.0" prefWidth="84.0" styleClass="dark-background" stylesheets="@../css/style.css">
@@ -118,6 +127,7 @@
                   <URL value="@../css/style.css" />
                </stylesheets>
             </ScrollPane>
+            <Label text="Label" />
          </children>
       </VBox>
    </center>

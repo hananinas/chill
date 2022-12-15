@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
@@ -39,31 +40,37 @@ public class mainController implements Initializable {
     private ScrollPane showPane;
     @FXML
     private ScrollPane menuPane;
+    @FXML
+    private Label notFound;
 
+    @FXML
+    private Label notFound1;
 
     private Stage stage;
     private Parent root;
-    public List<VideoObject> favList = new LinkedList<>();
+    protected HashSet<VideoObject> favList = new HashSet<>();
 
     private static mainController main;
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        main = this;
-
-
-
-        searchField.setStyle("-fx-font-size: 14px; -fx-text-fill: #fff; -fx-padding: 0.5em;");
-        moviePane.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
-        moviePane.setVbarPolicy(ScrollBarPolicy.NEVER);
-        moviePane.setHbarPolicy(ScrollBarPolicy.NEVER);
-
-        showPane.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
-        menuPane.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
-        menuPane.setVbarPolicy(ScrollBarPolicy.NEVER);
-
-
         try {
+            notFound1.setVisible(false);
+            notFound.setVisible(false);
+
+            main = this;
+
+
+
+            searchField.setStyle("-fx-font-size: 14px; -fx-text-fill: #fff; -fx-padding: 0.5em;");
+            moviePane.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
+            moviePane.setVbarPolicy(ScrollBarPolicy.NEVER);
+            moviePane.setHbarPolicy(ScrollBarPolicy.NEVER);
+
+            showPane.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
+            menuPane.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
+            menuPane.setVbarPolicy(ScrollBarPolicy.NEVER);
+
             String start = "";
             search(start);
 
@@ -74,8 +81,11 @@ public class mainController implements Initializable {
                 // search for movies and TV shows matching the query
                 try {
                     search(query);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } catch (IOException | SearchIsEmptyException e) {
+                    notFound.setVisible(true);
+                    notFound.setText(e.getMessage());
+                    notFound1.setVisible(true);
+                    notFound1.setText(e.getMessage());
                 }
             });
 
@@ -87,7 +97,7 @@ public class mainController implements Initializable {
 
     }
 
-    public void setData(List<VideoObject> favlist) throws IOException {
+    public void setData(HashSet<VideoObject> favlist) throws IOException, SearchIsEmptyException {
         this.favList = favlist;
         search("");
     }
@@ -97,33 +107,56 @@ public class mainController implements Initializable {
     public Display movies(){
         DataAccess filmdata = new VideoData();
         Display film = new Display(filmdata, "src/main/resources/data/film.txt", "src/main/resources/images/filmplakater");
-        film.VideoData();
+        film.videoData();
         return film;
     }
 
     public Display shows(){
         DataAccess showdata = new VideoData();
         Display show = new Display(showdata, "src/main/resources/data/serier.txt", "src/main/resources/images/serieforsider");
-        show.VideoData();
+        show.videoData();
         return show;
     }
 
+    /**
+     * Used to get all the categories for both shows and movies
+     * @return allcategories
+     */
     public Set<String> categories() {
+        /**
+         * initialize New Set of allcategories with all the shows.
+         */
         Set <String> allcategories = shows().getAllCategories();
+        /**
+         * Add all the movies to the Set all categories containing all shows.
+         */
         allcategories.addAll(movies().getAllCategories());
+
         return  allcategories;
+
     }
 
+    /**
+     * ActionEvent triggered when home icon is clicked
+     * @param event ActionEvent
+     */
     public void switchToHome(ActionEvent event) {
+        /**
+         * try-catch any errors while switching scenes
+         */
         try {
+            /** Load  the view for home page using the FXMLLOADER **/
+
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/home.fxml"));
             root = fxmlLoader.load();
 
-
+            /**
+             * Get the mainController
+             */
             mainController mainController = fxmlLoader.getController();
             mainController.setData(getList());
 
-
+            /** set the stage with the shows and movies / home screen **/
             stage =  (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
@@ -133,18 +166,25 @@ public class mainController implements Initializable {
 
     }
 
+    /**
+     * ActionEvent triggered when Movie Button is clicked
+     * @param event ActionEvent
+     */
     public void switchToMovies(ActionEvent event) {
-
+        /**
+         * try-catch any errors while switching scenes
+         */
         try {
+            /** Load  the view for movies page  using the FXMLLOADER **/
 
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/movies.fxml"));
             root = fxmlLoader.load();
 
-
+            /** get the movieConroller for the view **/
             movieController movieController = fxmlLoader.getController();
             movieController.setData(getList());
 
-
+            /** set the stage with the movies  **/
             stage =  (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
@@ -154,36 +194,56 @@ public class mainController implements Initializable {
 
     }
 
+    /**
+     * ActionEvent triggered when shows Button is clicked
+     * @param event ActionEvent
+     */
     public void switchToShows(ActionEvent event) {
+        /**
+         * try-catch any errors while switching scenes
+         */
         try {
+            /** Load  the view for shows page using the FXMLLOADER **/
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/shows.fxml"));
             root = fxmlLoader.load();
 
-
+            /** get the showConroller for the view **/
             showsController showsController = fxmlLoader.getController();
             showsController.setData(getList());
 
-
+            /** set the stage with the shows **/
             stage =  (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
+    /**
+     * ActionEvent triggered when favList icon is clicked
+     * @param event ActionEvent
+     */
     public void switchToFav(ActionEvent event) {
+        /**
+         * try-catch any errors while switching scenes
+         */
         try {
 
+            /** Load the the view for favList using the FXMLLOADER **/
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/favlist.fxml"));
             root = fxmlLoader.load();
 
 
+            /** get the favConroller for the view **/
             favController favController = fxmlLoader.getController();
+
+            /** set data for favList in the Controller **/
             favController.setData(getList());
 
-
+            /** set the stage with the  **/
             stage =  (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
@@ -194,18 +254,23 @@ public class mainController implements Initializable {
 
     }
 
-    public void search(String query) throws IOException {
-        // convert the search query to lower case
+    public void search(String query) throws SearchIsEmptyException, IOException {
+        /** // convert the search query to lower case **/
         String lowerCaseQuery = query.toLowerCase();
 
-
-
-        // filter the list of movies and TV shows based on the search query
+        /** // filter the list of movies and TV shows based on the search query **/
         List<VideoObject> filteredShows = shows().videoSearch(lowerCaseQuery);
 
-        // filter the list of movies and TV shows based on the search query
+        /** filter the list of movies and TV shows based on the search query **/
         List<VideoObject> filteredMovies = movies().videoSearch(lowerCaseQuery);
 
+        if(filteredMovies.size() == 0 && filteredShows.size() == 0){
+            cardLayoutFilm.getChildren().clear();
+            cardLayoutShow.getChildren().clear();
+            cardLayoutFilm.getChildren().add(notFound);
+            cardLayoutShow.getChildren().add(notFound1);
+            throw new SearchIsEmptyException();
+        }
 
         // clear the shows and movies
         cardLayoutFilm.getChildren().clear();
@@ -217,7 +282,7 @@ public class mainController implements Initializable {
     }
 
     // add heart if movie or show is in fav list
-    public List<VideoObject> setFav(List<VideoObject> videoType, List<VideoObject> favList ){
+    public List<VideoObject> setFav(List<VideoObject> videoType, Set<VideoObject> favList ){
         List<VideoObject> favFiltered = new ArrayList<>();
         for (VideoObject media: videoType
         ) {
@@ -328,11 +393,10 @@ public class mainController implements Initializable {
     public void addToList(VideoObject video,String type){
         if(type.equals("show")){
             shows().getAll();
-            main.favList.add(shows().addFavList(video.getTitle(), main.getList()));
+            main.favList = shows().addFavList(video.getTitle(), favList);
         } else if(type.equals("movie")){
             movies().getAll();
-            main.favList.add(movies().addFavList(video.getTitle(), main.getList()));
-
+            main.favList = movies().addFavList(video.getTitle() , favList);
         }
 
     }
@@ -340,16 +404,16 @@ public class mainController implements Initializable {
     public void removeToList(VideoObject video,String type){
         if(type.equals("show")){
             shows().getAll();
-           favList = shows().removeFavList(video.getTitle(), main.getList());
+           favList = shows().removeFavList(video.getTitle(), favList);
 
         } else if(type.equals("movie")){
             movies().getAll();
-            favList = movies().removeFavList(video.getTitle(), main.getList());
+            favList = movies().removeFavList(video.getTitle(), favList);
         }
 
     }
 
-    public List<VideoObject> getList(){
+    public HashSet<VideoObject> getList(){
         return favList;
     }
 

@@ -4,14 +4,12 @@ import java.util.*;
 import java.io.File;
 
 public class VideoObject {
-    String title;
-    String year;
-    String ratings;
-    File image;
-    boolean fav;
-    List<String> categories;
-
-    boolean isFavorite;
+    private String title;
+    private String year;
+    private String ratings;
+    private File image;
+    protected List<String> categories;
+    private boolean isFavorite;
 
     VideoObject(String title, String year, String ratings, File image ) {
 

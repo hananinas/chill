@@ -152,6 +152,11 @@
                   </VBox>
                </content>
             </ScrollPane>
+            <Label fx:id="notFound" prefHeight="68.0" prefWidth="652.0" text="                  Label" textFill="RED">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
          </children>
          <styleClass>
             <String fx:value="dark-background" />

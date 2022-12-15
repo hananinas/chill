@@ -39,7 +39,7 @@ public class popController implements Initializable {
     private Button playButton;
     private int Counter = 0;
 
-    SerieObject castedSerie;
+    protected SerieObject castedSerie;
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {

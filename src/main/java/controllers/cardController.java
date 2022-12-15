@@ -39,12 +39,12 @@ public class cardController {
     @FXML
     private Label seasonstext;
     @FXML
-    ImageView heart;
+    protected ImageView heart;
 
-    mainController main = new mainController();
+    protected mainController main = new mainController();
 
 
-    public VideoObject video;
+    protected VideoObject video;
 
     public void setData(VideoObject video) throws FileNotFoundException {
         this.video = video;

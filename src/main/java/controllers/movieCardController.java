@@ -32,7 +32,7 @@ public class movieCardController {
     private Label genre;
 
     @FXML
-    ImageView heart;
+    protected ImageView heart;
 
     @FXML
     private Button heartButton;
@@ -96,17 +96,13 @@ public class movieCardController {
 
 
     public void favlist() {
+
         movieController.fav(this);
     }
 
     public void setHeartToRed(){
         Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/heart.png")));
         heart.setImage(image);
-    }
-
-    public void hide(){
-        heartButton.setVisible(false);
-        heart.setVisible(false);
     }
 
 }

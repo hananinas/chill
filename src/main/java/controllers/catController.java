@@ -15,7 +15,8 @@ public class catController {
 
     private movieController movie;
 
-    String name;
+    private String name;
+
     public void getController(mainController main) {
         this.main = main;
          name = "main";

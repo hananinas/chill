@@ -25,7 +25,7 @@ public class favController implements Initializable {
     private Parent root;
     private final mainController main = new mainController();
 
-    private List<VideoObject> fav = new LinkedList<>();
+    private HashSet<VideoObject> fav = new HashSet<>();
 
     @FXML
     private GridPane VideoLayout;
@@ -69,7 +69,7 @@ public class favController implements Initializable {
 
     }
 
-    public void setData(List<VideoObject> favlist) throws IOException {
+    public void setData(HashSet<VideoObject> favlist) throws IOException {
         this.fav = favlist;
         search("");
     }
@@ -154,7 +154,7 @@ public class favController implements Initializable {
 
     }
 
-    public List<VideoObject> getList(){
+    public HashSet<VideoObject> getList(){
         return fav;
     }
 
@@ -162,13 +162,8 @@ public class favController implements Initializable {
 
 
     public void search(String query) throws IOException {
-        // convert the search query to lower case
-
-        // get a list of all shows
-        List<VideoObject> allVideos = main.shows().combian(main.shows().getAll(), main.movies().getAll());
-
-
-        List<VideoObject> favVideos = main.shows().favSearch( query , main.shows().returnFavList(allVideos, getList()));
+        // filter the list of fav based on search query
+        List<VideoObject> favVideos = main.shows().favSearch(query ,fav);
 
         // clear the shows and movies
         VideoLayout.getChildren().clear();
@@ -184,9 +179,9 @@ public class favController implements Initializable {
 
         for (int i = 0; i < filteredMoviesShows.size(); i++) {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/view/video.fxml"));
+            fxmlLoader.setLocation(getClass().getResource("/view/show.fxml"));
             VBox carBox = fxmlLoader.load();
-            movieCardController cardController = fxmlLoader.getController();
+            showCardController cardController = fxmlLoader.getController();
             cardController.hide();
             cardController.setData(filteredMoviesShows.get(i));
 

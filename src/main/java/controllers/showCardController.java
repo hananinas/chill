@@ -37,12 +37,15 @@ public class showCardController {
     @FXML
     private Button popupButton;
     @FXML
-    ImageView heart;
+    protected ImageView heart;
     @FXML
     private Button heartButton;
+    @FXML
+    private Label seasonText;
+
     public VideoObject video;
 
-    showsController showsController = new showsController();
+    protected showsController showsController = new showsController();
 
     public void setData(VideoObject show) throws FileNotFoundException {
         this.video = show;
@@ -64,12 +67,24 @@ public class showCardController {
 
         genre.setText(genres.substring(2));
 
-        SerieObject castedSerie = (SerieObject) show;
 
-        season.setText("" + castedSerie.getSeasonsEpisodes().size());
+        try {
+            SerieObject castedSerie = (SerieObject) show;
 
-        Image image = new Image(new FileInputStream(show.getImage()));
-        poster.setImage(image);
+            season.setText("" + castedSerie.getSeasonsEpisodes().size());
+
+            Image image = new Image(new FileInputStream(show.getImage()));
+            poster.setImage(image);
+        } catch (
+                ClassCastException e
+        ){
+            season.setVisible(false);
+            seasonText.setVisible(false);
+            Image image = new Image(new FileInputStream(show.getImage()));
+            poster.setImage(image);
+        }
+
+
     }
 
     public void popupViewMore(ActionEvent event) throws IOException {
@@ -86,12 +101,17 @@ public class showCardController {
 
         // Set the video data in the pop-up controller
 
-        if (season.getText().equals("")) {
+
+        try {
+            SerieObject castedSerie = (SerieObject) video;
+            popupController.setDataShow(video);
+        } catch (
+                ClassCastException e
+        ){
             System.out.println(season.getText());
             popupController.setData(video);
-        } else {
-            popupController.setDataShow(video);
         }
+
 
         // Create a Scene with the pop-up GUI and set it as the Scene of the Stage
         Scene scene = new Scene(root);
