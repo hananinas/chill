@@ -1,6 +1,6 @@
 # chill
 
-This project is built in JAVAFX 
+This project is built with JAVAFX 
 
 
 Project structer 
