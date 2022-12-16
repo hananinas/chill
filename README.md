@@ -6,7 +6,7 @@ This project is built in JAVAFX
 Project structer 
 
 
-- src
+    - src
         - main
                 - java
                       - controllers
