@@ -5,6 +5,7 @@ This project is built in JAVAFX
 
 Project structer 
 
+
 - src
         - main
                 - java
@@ -12,7 +13,6 @@ Project structer
                       - Model
                       - App.java
                       - main.java 
-  
         - resource 
                    - css
                    - data
