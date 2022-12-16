@@ -3,14 +3,14 @@
     <output-path>$PROJECT_DIR$/out/artifacts/chill_flixer_jar</output-path>
     <root id="archive" name="chill-flixer.jar">
       <element id="module-output" name="chill-flixer" />
-      <element id="extracted-dir" path="C:/java/javafx-sdk-19/lib/javafx.swing.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="C:/java/javafx-sdk-19/lib/javafx.fxml.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="C:/java/javafx-sdk-19/lib/javafx.controls.jar" path-in-jar="/" />
       <element id="extracted-dir" path="C:/java/javafx-sdk-19/lib/javafx-swt.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="C:/java/javafx-sdk-19/lib/javafx.graphics.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="C:/java/javafx-sdk-19/lib/javafx.media.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="C:/java/javafx-sdk-19/lib/javafx.base.jar" path-in-jar="/" />
       <element id="extracted-dir" path="C:/java/javafx-sdk-19/lib/javafx.web.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/java/javafx-sdk-19/lib/javafx.base.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/java/javafx-sdk-19/lib/javafx.fxml.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/java/javafx-sdk-19/lib/javafx.media.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/java/javafx-sdk-19/lib/javafx.swing.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/java/javafx-sdk-19/lib/javafx.controls.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/java/javafx-sdk-19/lib/javafx.graphics.jar" path-in-jar="/" />
       <element id="file-copy" path="C:/java/javafx-sdk-19/bin/api-ms-win-core-console-l1-1-0.dll" />
       <element id="file-copy" path="C:/java/javafx-sdk-19/bin/api-ms-win-core-console-l1-2-0.dll" />
       <element id="file-copy" path="C:/java/javafx-sdk-19/bin/api-ms-win-core-datetime-l1-1-0.dll" />
@@ -70,6 +70,7 @@
       <element id="file-copy" path="C:/java/javafx-sdk-19/bin/ucrtbase.dll" />
       <element id="file-copy" path="C:/java/javafx-sdk-19/bin/vcruntime140.dll" />
       <element id="file-copy" path="C:/java/javafx-sdk-19/bin/vcruntime140_1.dll" />
+      <element id="dir-copy" path="$PROJECT_DIR$/src/main/resources" />
     </root>
   </artifact>
 </component>

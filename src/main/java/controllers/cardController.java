@@ -16,6 +16,18 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+
+ The cardController class is responsible for displaying movie and TV show information in a card layout.
+
+ It displays the title, year, rating, genre, and poster image of a movie or TV show.
+
+ It also allows the user to view more details about the movie or TV show in a pop-up window by clicking the "View More" button.
+
+ The cardController class has a method to add the movie or TV show to the user's favorite list.
+
+ @see mainController
+ */
 public class cardController {
 
     @FXML

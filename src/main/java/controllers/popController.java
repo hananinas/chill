@@ -16,7 +16,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import Model.*;
+
+/**
+ * The `popController` class is a controller for a JavaFX pop-up window that displays details about a movie or TV show.
+ * It handles the display of the title, ratings, year, genre, and poster image of the video, as well as the ability to
+ * play the video. If the video is a TV show, it also allows the user to select a season and episode to watch.
+ */
 public class popController implements Initializable {
+
     @FXML
     private ImageView poster;
     @FXML
@@ -41,6 +48,18 @@ public class popController implements Initializable {
 
     protected SerieObject castedSerie;
 
+    /**
+
+     This method is called when the pop up window is initialized.
+
+     It sets the text color of the items in the ChoiceBox objects to red and white, respectively.
+
+     It also sets an action event for the SeasonsEpisodes ChoiceBox object, which updates the EpisodesSelectore ChoiceBox object when a season is selected.
+
+     @param arg0 The URL of the FXML file that was used to create the pop up window.
+
+     @param arg1 The resources used to localize the root object of the FXML file.
+     **/
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         // set the text color of the items in the ChoiceBox to red
@@ -52,6 +71,14 @@ public class popController implements Initializable {
 
     }
 
+    /**
+     * The `setData` method sets the data for a movie or TV show in the pop-up window. It displays the title, ratings, year,
+     * and genre of the video, and sets the poster image using the file path provided in the `VideoObject` object. If the
+     * video is a TV show, it also makes the season and episode selection controls visible.
+     *
+     * @param video the `VideoObject` object containing the data for the movie or TV show
+     * @throws FileNotFoundException if the file path for the poster image is invalid
+     */
     public void setData(VideoObject video) throws FileNotFoundException {
         name.setText(video.getTitle());
         rating.setText(video.getRatings());
@@ -74,7 +101,13 @@ public class popController implements Initializable {
         seasonsText.setVisible(false);
     }
 
-    // set data for shows
+/**
+ * The `setDataShow` method is similar to the `setData` method, but it is specifically for TV shows. It sets the data for
+ * the TV show in the pop-up window, and populates the season selection control with the available seasons of the show.
+ *
+ * @param show the `VideoObject` object containing the data for the TV show
+ * @throws FileNotFoundException if the file path for the poster image
+ * **/
     public void setDataShow(VideoObject show) throws FileNotFoundException {
         setData(show);
         castedSerie = (SerieObject) show;
@@ -90,7 +123,11 @@ public class popController implements Initializable {
 
     }
 
-    // change the episodes according to the selected season
+
+    /**
+     * Changes the episodes according to the selected season.
+     * @param event ActionEvent
+     */
     public void episodes(ActionEvent event) {
 
         EpisodesSelectore.getItems().clear();
@@ -102,6 +139,9 @@ public class popController implements Initializable {
         }
     }
 
+    /**
+     * Changes the color and text of the play button.
+     */
     public void play() {
         Counter++;
 

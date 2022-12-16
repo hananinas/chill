@@ -20,7 +20,9 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
+ /**
+ *The showsController class is responsible for displaying a list of TV shows, as well as allowing the user to search for TV shows and filter the list by categories.
+ **/
 public class showsController implements Initializable {
 
     private Stage stage;
@@ -49,26 +51,42 @@ public class showsController implements Initializable {
     public showsController() {
     }
 
+    /**
+     * Initializes the main controller and sets up the search and menu functionality.
+     *
+     * @param arg0 the URL of the FXML file
+     * @param arg1 the resource bundle
+     */
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
 
 
 
         try {
-
+            /**
+             * Set the style for the search field and scroll panes
+             */
             searchField.setStyle("-fx-font-size: 14px; -fx-text-fill: #fff; -fx-padding: 0.5em;");
             cardlayout.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
             menuPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
             notFound.setVisible(false);
 
+            /**
+             * Perform a search with an empty query to display all movies and TV shows
+             */
             String start = "";
             search(start);
 
             searchButton.setOnAction(event -> {
-                // get the search query from the text field
+
+                /**
+                 *  get the search query from the text field
+                 */
                 String query = searchField.getText();
 
-                // search for movies and TV shows matching the query
+                /**
+                 * search for movies and TV shows matching the query
+                 */
                 try {
                     search(query);
                 } catch (IOException | SearchIsEmptyException e) {
@@ -78,6 +96,9 @@ public class showsController implements Initializable {
                 }
             });
 
+            /**
+             * set up the menu with the categories of movies and TV shows
+             */
             setCategories(menuItem);
         } catch (Exception e) {
             e.printStackTrace();
@@ -85,12 +106,25 @@ public class showsController implements Initializable {
 
     }
 
+
+    /**
+     * Sets the data for the favorite list and searches for movies and TV shows with an empty query.
+     *
+     * @param favlist the favorite list
+     * @throws IOException if there is an error reading from the data files
+     * @throws SearchIsEmptyException if the search query is empty
+     */
     public void setData(HashSet<VideoObject> favlist) throws IOException, SearchIsEmptyException {
         this.favList = favlist;
         search("");
     }
 
+    /**
 
+     Switches to the home screen.
+
+     @param event the event triggered by the action
+     */
     public void switchToHome(ActionEvent event) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/home.fxml"));
@@ -110,6 +144,12 @@ public class showsController implements Initializable {
 
     }
 
+    /**
+
+     Switches to the movies screen.
+
+     @param event the event triggered by the action
+     */
     public void switchToMovies(ActionEvent event) {
 
         try {
@@ -131,6 +171,12 @@ public class showsController implements Initializable {
 
     }
 
+    /**
+
+     Switches to the TV shows screen.
+
+     @param event the event triggered by the action
+     */
     public void switchToShows(ActionEvent event) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/shows.fxml"));
@@ -150,6 +196,12 @@ public class showsController implements Initializable {
 
     }
 
+    /**
+
+     Switches to the favorite list screen.
+
+     @param event the event triggered by the action
+     */
     public void switchToFav(ActionEvent event) {
         try {
 
@@ -171,6 +223,13 @@ public class showsController implements Initializable {
 
     }
 
+    /**
+     *
+     *Searches for TV shows matching the given query.
+     *@param query the search query
+     * @throws IOException if an I/O error occurs
+     * @throws SearchIsEmptyException if no TV shows match the given query
+     */
     public void search(String query) throws IOException, SearchIsEmptyException {
         // convert the search query to lower case
         String lowerCaseQuery = query.toLowerCase();
@@ -193,6 +252,14 @@ public class showsController implements Initializable {
 
     }
 
+    /**
+
+     Updates the scene with the provided list of TV shows.
+
+     @param filteredShows the list of TV shows to display
+
+     @throws IOException if the FXML file for the TV show card cannot be loaded
+     */
     public void updateSceneWithShows(List<VideoObject> filteredShows) throws IOException {
         int row = 0;
         int column = 1;
@@ -214,10 +281,20 @@ public class showsController implements Initializable {
         }
     }
 
+    /**
+     *Returns a set of unique categories for TV shows.
+     *@return a set of categories for TV shows
+     */
     public Set<String> categories() {
         return  main.shows().getAllCategories();
     }
 
+
+    /**
+     *Filters the list of TV shows based on the given category and updates the scene with the filtered list.
+     *@param category the category to filter the list of TV shows by
+     *@throws IOException if an input or output exception occurred
+     */
     public void filterByCategory(String category) throws IOException {
         // filter the list of movies and TV shows based on the search query
         List<VideoObject> filteredShows = main.shows().getVideoByCategory(category);
@@ -226,6 +303,13 @@ public class showsController implements Initializable {
         // update the scene with the filtered list of movies and TV shows
         updateSceneWithShows(filteredShows);
     }
+
+    /**
+
+     *Sets the categories for the menu item.
+     *@param menuItem the menu item where the categories will be displayed
+     *@throws IOException if there is an error loading the category button FXML file
+     */
     public  void  setCategories(VBox menuItem) throws IOException{
         categories = new HashSet<>(categories());
 
@@ -239,7 +323,11 @@ public class showsController implements Initializable {
             menuItem.getChildren().add(catbButton);
         }
     }
-    //fav list code
+    /**
+     * (Experimantal not working) adds or removes a show from the favorite list.
+     *
+     * @param card the card controller of the show
+     */
     public void fav(showCardController card){
 
             if (!card.video.getIsFavorite()) {
@@ -257,6 +345,12 @@ public class showsController implements Initializable {
             }
 
     }
+
+    /**
+     * Returns the favorite list.
+     *
+     * @return the favorite list
+     */
     public HashSet<VideoObject> getList(){
         return favList;
     }

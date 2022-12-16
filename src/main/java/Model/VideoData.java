@@ -3,10 +3,8 @@ import java.util.*;
 import java.io.*;
 
 /**
- Klassen har til formål at hente data og gemme dataene i de forskellige lister
- I vores felt, benytter vi to lister, videoData og images, hvor alt data afhængig af om det er en film eller serie vi beskæftiger os med
- *
- */
+ *This class represents a Video object. It stores information about a video, such as its title, year, ratings, and categories.
+ **/
 public class VideoData implements  DataAccess {
     private List<String> videoData;
     private ArrayList<File> images;

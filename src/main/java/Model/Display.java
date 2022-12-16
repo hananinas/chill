@@ -7,7 +7,9 @@ import java.util.stream.Stream;
 
 
 /**
- *
+ *The Display class is responsible for handling the display of video data, such as films and TV series. It uses a {@link DataAccess}
+ *object to load and save the data, and stores the data in lists of {@link VideoObject}s for films and {@link SerieObject}s for TV series.
+ *The class also includes methods for retrieving and displaying the data based on various criteria, such as categories and favorites.
  */
 public class Display {
 

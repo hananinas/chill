@@ -15,7 +15,33 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-
+/**
+ * The `showCardController` class is the controller for a show card, which displays information about a
+ * video object and provides a button for viewing more information about the video in a pop-up window.
+ *
+ * @see VideoObject
+ * @see showsController
+ * @see popController
+ *
+ * @field genre: a label for displaying the genres of the video
+ * @field poster: an image view for displaying the poster of the video
+ * @field rating: a label for displaying the rating of the video
+ * @field year: a label for displaying the year of the video
+ * @field name: a label for displaying the name of the video
+ * @field season: a label for displaying the number of seasons of the video (only applicable for series)
+ * @field popupButton: a button for opening a pop-up window with more information about the video
+ * @field heart: an image view for displaying a heart icon indicating whether the video is a favorite
+ * @field heartButton: a button for adding or removing the video from the favorites list
+ * @field seasonText: a label for displaying the text "Seasons" (only applicable for series)
+ * @field video: a video object containing information about the video
+ * @field showsController: a shows controller object for interacting with the list of shows
+ *
+ * @method setData: sets the data for the show card
+ * @method popupViewMore: opens a pop-up window with more information about the video
+ * @method favlist: adds or removes the video from the favorites list
+ * @method setHeartToRed: sets the heart icon to red to indicate that the video is a favorite
+ * @method hide: hides the heart icon and button
+ */
 public class showCardController {
     @FXML
     private Label genre;

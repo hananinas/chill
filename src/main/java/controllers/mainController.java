@@ -52,6 +52,13 @@ public class mainController implements Initializable {
 
     private static mainController main;
 
+
+    /**
+     * Initializes the main controller and sets up the search and menu functionality.
+     *
+     * @param arg0 the URL of the FXML file
+     * @param arg1 the resource bundle
+     */
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         try {
@@ -61,7 +68,9 @@ public class mainController implements Initializable {
             main = this;
 
 
-
+            /**
+             * Set the style for the search field and scroll panes
+             */
             searchField.setStyle("-fx-font-size: 14px; -fx-text-fill: #fff; -fx-padding: 0.5em;");
             moviePane.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
             moviePane.setVbarPolicy(ScrollBarPolicy.NEVER);
@@ -71,14 +80,25 @@ public class mainController implements Initializable {
             menuPane.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
             menuPane.setVbarPolicy(ScrollBarPolicy.NEVER);
 
+            /**
+             * Perform a search with an empty query to display all movies and TV shows
+             */
             String start = "";
             search(start);
 
+            /**
+             * Set up the search button to perform a search when clicked
+             */
             searchButton.setOnAction(event -> {
-                // get the search query from the text field
+
+                /**
+                 *  get the search query from the text field
+                  */
                 String query = searchField.getText();
 
-                // search for movies and TV shows matching the query
+                /**
+                 * search for movies and TV shows matching the query
+                 */
                 try {
                     search(query);
                 } catch (IOException | SearchIsEmptyException e) {
@@ -89,6 +109,9 @@ public class mainController implements Initializable {
                 }
             });
 
+            /**
+             * set up the menu with the categories of movies and TV shows
+             */
             setCategories(menuItem);
 
         } catch (Exception e) {
@@ -97,6 +120,14 @@ public class mainController implements Initializable {
 
     }
 
+
+    /**
+     * Sets the data for the favorite list and searches for movies and TV shows with an empty query.
+     *
+     * @param favlist the favorite list
+     * @throws IOException if there is an error reading from the data files
+     * @throws SearchIsEmptyException if the search query is empty
+     */
     public void setData(HashSet<VideoObject> favlist) throws IOException, SearchIsEmptyException {
         this.favList = favlist;
         search("");
@@ -104,6 +135,11 @@ public class mainController implements Initializable {
 
 
 
+    /**
+     * Returns a {@code Display} object for movies.
+     *
+     * @return a {@code Display} object for movies
+     */
     public Display movies(){
         DataAccess filmdata = new VideoData();
         Display film = new Display(filmdata, "src/main/resources/data/film.txt", "src/main/resources/images/filmplakater");
@@ -111,6 +147,11 @@ public class mainController implements Initializable {
         return film;
     }
 
+    /**
+     * Returns a {@code Display} object for TV shows.
+     *
+     * @return a {@code Display} object for TV shows
+     */
     public Display shows(){
         DataAccess showdata = new VideoData();
         Display show = new Display(showdata, "src/main/resources/data/serier.txt", "src/main/resources/images/serieforsider");
@@ -156,7 +197,7 @@ public class mainController implements Initializable {
             mainController mainController = fxmlLoader.getController();
             mainController.setData(getList());
 
-            /** set the stage with the shows and movies / home screen **/
+            /** set the stage with the shows and movies - home screen **/
             stage =  (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
@@ -254,16 +295,33 @@ public class mainController implements Initializable {
 
     }
 
+    /**
+     * Searches for movies and TV shows matching the given query.
+     *
+     * @param query the search query
+     * @throws IOException if there is an error reading from the data files
+     * @throws SearchIsEmptyException if the search query is empty
+     */
     public void search(String query) throws SearchIsEmptyException, IOException {
-        /** // convert the search query to lower case **/
+
+        /** convert the search query to lower case **/
         String lowerCaseQuery = query.toLowerCase();
 
+        /** Create Display objects for movies and TV shows **/
+        Display film = movies();
+        Display show = shows();
+
         /** // filter the list of movies and TV shows based on the search query **/
-        List<VideoObject> filteredShows = shows().videoSearch(lowerCaseQuery);
+        List<VideoObject> filteredShows = show.videoSearch(lowerCaseQuery);
 
         /** filter the list of movies and TV shows based on the search query **/
-        List<VideoObject> filteredMovies = movies().videoSearch(lowerCaseQuery);
+        List<VideoObject> filteredMovies = film.videoSearch(lowerCaseQuery);
 
+
+        /**
+         *
+         * If no matches are found, set the visibility of the notFound labels to true and set their text to an error message
+         */
         if(filteredMovies.size() == 0 && filteredShows.size() == 0){
             cardLayoutFilm.getChildren().clear();
             cardLayoutShow.getChildren().clear();
@@ -272,16 +330,27 @@ public class mainController implements Initializable {
             throw new SearchIsEmptyException();
         }
 
-        // clear the shows and movies
+        /**
+         * clear the shows and movies
+         */
         cardLayoutFilm.getChildren().clear();
         cardLayoutShow.getChildren().clear();
-        // update the scene with the filtered list of movies and TV shows
 
+
+        /**
+         * update the scene with the filtered list of movies and TV shows
+         */
         updateSceneWithMovies(setFav(filteredMovies,favList));
         updateSceneWithShows(setFav(filteredShows,favList));
     }
 
-    // add heart if movie or show is in fav list
+    /**
+     * Filters a list of video objects based on whether they are in the favorite list.
+     *
+     * @param videoType the list of video objects to filter
+     * @param favList the set of favorite video objects
+     * @return a list of the video objects from `videoType` that are also in `favList`, with their `isFavorite` field set to `true`
+     */
     public List<VideoObject> setFav(List<VideoObject> videoType, Set<VideoObject> favList ){
         List<VideoObject> favFiltered = new ArrayList<>();
         for (VideoObject media: videoType
@@ -296,6 +365,13 @@ public class mainController implements Initializable {
         }
         return favFiltered;
     }
+
+    /**
+     * Updates the user interface with a list of movies.
+     *
+     * @param filteredMovies the list of movies to display
+     * @throws IOException if there is an error loading the `card.fxml` file
+     */
     public void updateSceneWithMovies(List<VideoObject> filteredMovies) throws IOException {
         for (VideoObject filteredMovie : filteredMovies) {
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -308,6 +384,12 @@ public class mainController implements Initializable {
 
     }
 
+    /**
+     * Updates the user interface with a list of TV shows.
+     *
+     * @param filteredShows the list of TV shows to display
+     * @throws IOException if there is an error loading the `card.fxml` file
+     */
     private void updateSceneWithShows(List<VideoObject> filteredShows) throws IOException {
         for (VideoObject filteredShow : filteredShows) {
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -319,15 +401,21 @@ public class mainController implements Initializable {
         }
     }
 
+    /**
+     * Filters a list of movies and TV shows by category and updates the user interface with the results.
+     *
+     * @param category the category to filter by
+     * @throws IOException if there is an error loading the `card.fxml` file
+     */
     public void filterByCategory(String category) throws IOException {
         cardLayoutFilm.getChildren().clear();
         cardLayoutShow.getChildren().clear();
 
-        // filter the list of movies and TV shows based on the search query
+        // filter the list of TV shows based on the category selected.
         List<VideoObject> filteredShows = shows().getVideoByCategory(category);
 
 
-        // filter the list of movies and TV shows based on the search query
+        // filter the list of movies based on the category selected.
         List<VideoObject> filteredMovies = movies().getVideoByCategory(category);
 
         // clear the shows and movies
@@ -339,6 +427,12 @@ public class mainController implements Initializable {
 
     }
 
+    /**
+     * Adds buttons for each category to a VBox.
+     *
+     * @param menuItem the VBox to add the buttons to
+     * @throws IOException if there is an error loading the `categoryButton.fxml` file
+     */
     public  void  setCategories(VBox menuItem) throws IOException{
         Set<String> categories = new HashSet<>(categories());
 
@@ -353,17 +447,24 @@ public class mainController implements Initializable {
         }
     }
 
-    //fav list code
-    public void fav(String season, cardController card){
+    /**
+     * Adds or removes a movie or TV show from the favorites list and updates the "favorite" button on the user interface.
+     *
+     * @param season the season of the TV show (if applicable)
+     * @param card the cardController associated with the card
+     */
+    public void fav(String season, cardController card ){
         if (season.equals("")) {
-
+            // movie
             if (!card.video.getIsFavorite()) {
+                // add movie to favorites
                 Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/heart.png")));
                 main.addToList(card.video, "movie");
                 main.movies().getAll();
                 card.heart.setImage(image);
                 card.video.setIsFavorite(true);
             } else {
+                // remove movie from favorites
                 Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/heartEmpty.png")));
                 main.movies().getAll();
                 main.removeToList(card.video, "movie");
@@ -372,8 +473,9 @@ public class mainController implements Initializable {
             }
 
         } else {
-
+            // TV show
             if (!card.video.getIsFavorite()) {
+                // add TV show to favorites
                 Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/heart.png")));
                 main.shows().getAll();
                 main.addToList(card.video, "show");
@@ -390,6 +492,12 @@ public class mainController implements Initializable {
 
     }
 
+    /**
+     * Adds a movie or TV show to the favorites list.
+     *
+     * @param video the movie or TV show to add to the favorites list
+     * @param type the type of video, either "movie" or "show"
+     */
     public void addToList(VideoObject video,String type){
         if(type.equals("show")){
             shows().getAll();
@@ -401,6 +509,12 @@ public class mainController implements Initializable {
 
     }
 
+    /**
+     * Removes a movie or TV show from the favorites list.
+     *
+     * @param video the movie or TV show to remove from the favorites list
+     * @param type the type of video, either "movie" or "show"
+     */
     public void removeToList(VideoObject video,String type){
         if(type.equals("show")){
             shows().getAll();
@@ -413,6 +527,11 @@ public class mainController implements Initializable {
 
     }
 
+    /**
+     * Returns the favorite list.
+     *
+     * @return the favorite list
+     */
     public HashSet<VideoObject> getList(){
         return favList;
     }

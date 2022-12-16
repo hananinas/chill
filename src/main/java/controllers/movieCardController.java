@@ -15,7 +15,22 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Objects;
+/**
 
+ The movieCardController class is a JavaFX controller class for the video.fxml card GUI. It displays the movie information
+
+ (title, year, rating, genres, and poster image) for a given {@link VideoObject} object and provides a button for
+
+ opening a pop-up window with more information about the movie. It also has a "favorite" button for adding or removing
+
+ the movie from the user's favorite list.
+
+ @see VideoObject
+
+ @see movieController
+
+ @see popController
+ **/
 public class movieCardController {
     @FXML
     private ImageView poster;
@@ -36,7 +51,8 @@ public class movieCardController {
 
     @FXML
     private Button heartButton;
-    controllers.movieController movieController = new movieController();
+
+    protected movieController movieController = new movieController();
 
 
     public VideoObject video;

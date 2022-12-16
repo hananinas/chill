@@ -3,6 +3,9 @@ package Model;
 import java.util.*;
 import java.io.File;
 
+/**
+ * SerieObject exetends video and adds extra
+ */
 public class SerieObject extends VideoObject {
 
     Map<Integer, Integer> seasonsEpisodes;

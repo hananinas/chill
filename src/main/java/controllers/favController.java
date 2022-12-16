@@ -18,7 +18,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
+/**
+ *This is the controller class for the 'favorite' view in the application. It displays a list of movies and TV shows that the user has marked as favorites. The user can also search for movies and TV shows in the favorite list, and view more information about a movie or TV show by clicking on its card.
+ * This class has the same methods as {@link movieController} and {@link showsController}
+ *
+ * @see movieController
+ * @see showsController
+ **/
 public class favController implements Initializable {
 
     private Stage stage;

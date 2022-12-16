@@ -3,6 +3,9 @@ package Model;
 import java.util.*;
 import java.io.File;
 
+/**
+ * Videoobject is a object that is used to make a new video
+ */
 public class VideoObject {
     private String title;
     private String year;
